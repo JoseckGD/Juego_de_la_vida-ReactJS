@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { MyCelda } from "./components/MyCelda";
 import { MyHeader } from "./components/MyHeader";
+let cont = 0;
 
 function App() {
   const pantallaX = window.screen.width;
@@ -40,32 +41,35 @@ function App() {
   };
 
   const Comenzar = () => {
-    setHeaderState(false);
+    console.log(cont);
+    // setHeaderState(false);
     // console.log(malla.length);
     // console.log(malla[0].length);
-    let cont = 0;
+    for (let y = 0; y < malla.length; y++) {
+      for (let x = 0; x < malla[y].length; x++) {
+        if (malla[y][x] === 1) {
+          if (!CeldaViva(y, x)) {
+            malla[y][x] = 0;
+          }
+        } else {
+          if (malla[y][x] === 0) {
+            if (CeldaMuerta(y, x)) {
+              malla[y][x] = 1;
+            }
+          }
+        }
+      }
+    }
 
-    while (cont < 10) {
+    if (cont < 10) {
+      setMalla([...malla]);
+      setTimeout(Comenzar, 3000);
       cont++;
-      console.log(cont);
-      // for (let y = 0; y < malla.length; y++) {
-      //   for (let x = 0; x < malla[y].length; x++) {
-      //     if (malla[y][x] === 1) {
-      //       if (!CeldaViva(y, x)) {
-      //         malla[y][x] = 0;
-      //       }
-      //     } else {
-      //       if (malla[y][x] === 0) {
-      //         if (CeldaMuerta(y, x)) {
-      //           malla[y][x] = 1;
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
-      // setTimeout(() => {
-      //   setMalla([...malla]);
-      // }, 1000);
+    } else {
+      if (cont === 10) {
+        setHeaderState(false);
+        cont = 0;
+      }
     }
   };
 

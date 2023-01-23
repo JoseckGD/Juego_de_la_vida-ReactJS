@@ -8,8 +8,8 @@ function App() {
   const pantallaX = window.screen.width;
   const pantallaY = window.screen.height;
 
-  let mallaX = (pantallaX / 32) | 0;
-  let mallaY = (pantallaY / 32) | 0;
+  let mallaX = (pantallaX / 16) | 0;
+  let mallaY = (pantallaY / 16) | 0;
 
   const [malla, setMalla] = useState(
     Array(mallaY)
@@ -41,12 +41,13 @@ function App() {
   };
 
   const Comenzar = () => {
-    console.log(cont);
+    console.log("Iteracion numero ", cont);
     // setHeaderState(false);
     // console.log(malla.length);
     // console.log(malla[0].length);
-    for (let y = 0; y < malla.length; y++) {
+    for (let y = 0; y < malla.length - 1; y++) {
       for (let x = 0; x < malla[y].length; x++) {
+        // console.log(`${x} - ${y}`);
         if (malla[y][x] === 1) {
           if (!CeldaViva(y, x)) {
             malla[y][x] = 0;
@@ -60,16 +61,13 @@ function App() {
         }
       }
     }
-
-    if (cont < 10) {
+    if (cont === 1) {
+      setHeaderState(false);
+    }
+    if (cont < 100) {
       setMalla([...malla]);
-      setTimeout(Comenzar, 3000);
+      setTimeout(Comenzar, 500);
       cont++;
-    } else {
-      if (cont === 10) {
-        setHeaderState(false);
-        cont = 0;
-      }
     }
   };
 
@@ -213,7 +211,7 @@ function App() {
     // return 0;
   };
   const checarDiagonal_2 = (x, y) => {
-    if (y <= mallaY && x !== 0) {
+    if (x <= mallaX && x !== 0) {
       if (malla[x + 1][y - 1] === 1) {
         return true;
       } else {
@@ -224,7 +222,7 @@ function App() {
     // return 0;
   };
   const checarDiagonal_3 = (x, y) => {
-    if (x !== 0 && y <= mallaY) {
+    if (x !== 0 && y < mallaY) {
       if (malla[x - 1][y + 1] === 1) {
         return true;
       } else {
@@ -235,7 +233,7 @@ function App() {
     // return 0;
   };
   const checarDiagonal_4 = (x, y) => {
-    if (x <= mallaX && y <= mallaY) {
+    if (x < mallaX && y < mallaY) {
       if (malla[x + 1][y - 1] === 1) {
         return true;
       } else {
@@ -258,7 +256,7 @@ function App() {
     // return 0;
   };
   const checarAbajo = (x, y) => {
-    if (y <= mallaY) {
+    if (y < mallaY) {
       if (malla[x][y + 1] === 1) {
         return true;
       } else {
@@ -283,7 +281,7 @@ function App() {
 
   const checarAdelante = (x, y) => {
     // console.log(x, y);
-    if (x <= mallaX) {
+    if (x < mallaX) {
       if (malla[x + 1][y] === 1) {
         return true;
       } else {
